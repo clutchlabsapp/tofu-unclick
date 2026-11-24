@@ -32,6 +32,7 @@ RUN set -e; mkdir -p "$TF_PLUGIN_CACHE_DIR" /tmp/p; cd /tmp/p; \
       'terraform {' \
       '  required_providers {' \
       '    aws     = { source = "hashicorp/aws", version = "~> 6.0" }' \
+      '    google  = { source = "hashicorp/google", version = "~> 8.0" }' \
       '    azurerm = { source = "hashicorp/azurerm", version = "~> 4.0" }' \
       '  }' \
       '}' > main.tf; \
