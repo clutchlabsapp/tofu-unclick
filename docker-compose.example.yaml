@@ -1,0 +1,27 @@
+# Runs export-to-tofu.sh in the tofu-unclick image.
+# Usage: put your values in .env (see .env.example), then:
+#   docker compose run --rm export
+# Output lands in ./output: result.json plus the .tf files in ./output/aws or ./output/azurerm
+services:
+  export:
+    image: clutchlabsapp/tofu-unclick:latest
+    command: ["sh", "/scripts/export-to-tofu.sh"]
+    working_dir: /output
+    volumes:
+      - ./export-to-tofu.sh:/scripts/export-to-tofu.sh:ro
+      - ./output:/output
+    environment:
+      CLOUD: ${CLOUD:-}                     # aws | azure; empty = detect from credentials
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-}
+      AWS_SESSION_TOKEN: ${AWS_SESSION_TOKEN:-}
+      AWS_REGION: ${AWS_REGION:-us-east-1}
+      AWS_DEFAULT_REGION: ${AWS_REGION:-us-east-1}
+      ARM_TENANT_ID: ${ARM_TENANT_ID:-}
+      ARM_SUBSCRIPTION_ID: ${ARM_SUBSCRIPTION_ID:-}
+      ARM_CLIENT_ID: ${ARM_CLIENT_ID:-}
+      ARM_CLIENT_SECRET: ${ARM_CLIENT_SECRET:-}
+      HOME: /tmp
+      UNCLICK_CACHE_DIR: /tmp/unclick
+      TF_IN_AUTOMATION: "1"
+      CHECKPOINT_DISABLE: "1"
